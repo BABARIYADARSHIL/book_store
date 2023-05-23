@@ -1,31 +1,29 @@
+import { Button, TextField } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 import Footer from "../Components/Footer";
 import Header from "../Components/Header";
+import Searchbar from "../Components/Searchbar";
 function Register() {
   return (
     <div className="text-center">
       <Header />
-      <p className="font-sans text-center font-bold text-2xl text-red-500">
-        Here is The Register Page
+      <Searchbar />
+      <p className="text-black  font-sans mt-12">Home - Crete Account</p>
+      <p className="text-black text-4xl font-bold  mt-12">
+        login or Create an Account
       </p>
-      <hr />
-      <br />
-      <Link to={"/"} className="text-xl text-red-500">
-        Click Here To Go Home
-      </Link>
       <br />
       <br />
-      <Link to={"/product-page"} className="text-xl text-red-500">
-        Click Here To Go Product Page
-      </Link>
-      <br />
-      <br />
-      <Link to={"/login"} className="text-xl text-red-500">
-        Click Here To Login
-      </Link>
-      <br />
-      <br />
+      <div className="flex-row justify-between space-x-7 mb-14">
+        <Link to={"/"} className="text-xl text-purple-600">
+          Click Here To Go Home
+        </Link>
+
+        <Link to={"/product-page"} className="text-xl text-purple-600">
+          Click Here To Go Product Page
+        </Link>
+      </div>
       <Footer />
     </div>
   );

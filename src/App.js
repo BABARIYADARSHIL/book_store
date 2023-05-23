@@ -4,6 +4,7 @@ import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import ProductPage from "./Pages/ProductPage";
 import Register from "./Pages/Register";
+
 function App() {
   return (
     <> 
