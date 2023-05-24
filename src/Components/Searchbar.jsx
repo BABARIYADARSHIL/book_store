@@ -6,13 +6,15 @@ export default function Searchbar() {
   return (
     <div className="flex bg-[#efefef] h-20 items-center justify-center space-x-4">
       <TextField
-        id="outlined-basic"
+        hiddenLabel
+        id="filled-hidden-label-small"
         label="What are you Looking for..."
-        variant="outlined"
         type={"text"}
-        className="my-5 "
-        sx={{ width: "422px" }}
+        variant="outlined"
+        size="small"
+        sx={{ width: "422px", backgroundColor: "white" }}
       />
+
       <Button
         variant="contained"
         startIcon={<AiOutlineSearch />}

@@ -7,16 +7,16 @@ import Register from "./Pages/Register";
 
 function App() {
   return (
-    <> 
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" Component={Home} />
-        <Route path="/login" Component={Login} />
-        <Route path="/register" Component={Register} />
-        <Route path="/product-page" Component={ProductPage} />
-        <Route path="/cart-pae" Component={CartPage} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" Component={Home} />
+          <Route path="/login" Component={Login} />
+          <Route path="/register" Component={Register} />
+          <Route path="/product-page" Component={ProductPage} />
+          <Route path="/cart-page" Component={CartPage} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
