@@ -1,11 +1,13 @@
 import React from "react";
 import Footer from "../Components/Footer";
 import Header from "../Components/Header";
-import { Link } from "react-router-dom";
+
 import Searchbar from "../Components/Searchbar";
+import { ToastContainer } from "react-toastify";
 function Home() {
   return (
     <div className="">
+      <ToastContainer />
       <Header />
       <Searchbar />
       <hr />

@@ -3,66 +3,91 @@ import {
   Button,
   Divider,
   FormControl,
-  Input,
   MenuItem,
   Select,
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 import Searchbar from "../Components/Searchbar";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Formik } from "formik";
 import * as Yup from "yup";
-function handleClick(event) {
-  // event.preventDefault();
-  console.log("Clicked");
-}
+import userService from "../service/user.service";
+import authService from "../service/auth.service";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Register() {
+  const navigate = useNavigate();
   const breadcrumbs = [
-    <Link
-      to={"/"}
-      underline="hover"
-      key="1"
-      color="inherit"
-      href="/"
-      onClick={handleClick}
-    >
+    <Link to={"/"} underline="hover" key="1" color="inherit" href="/">
       Home
     </Link>,
 
-    <Typography key="2" color="text.primary">
+    <Typography key="2" color={{ color: "#f14d54" }}>
       Create an Account
     </Typography>,
   ];
   const initialValues = {
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
     email: "",
+    roleId: "",
     password: "",
-    conformpassword: "",
+    confirmPassword: "",
   };
   const validate = Yup.object().shape({
-    firstname: Yup.string()
+    firstName: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
-      .required("Required"),
-    lastname: Yup.string()
+      .required("FirstName is Required"),
+    lastName: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
-      .required("Required"),
-    email: Yup.string().email("Invalid email").required("Required"),
-    password: Yup.string().required("Required"),
-    conformpassword: Yup.string()
+      .required("LastName is Required"),
+    email: Yup.string().email("Invalid email").required("Email is Required"),
+    password: Yup.string().required("Password must Required"),
+    confirmPassword: Yup.string()
       .oneOf([Yup.ref("password"), null], "Passwords must match")
       .required("Required"),
+    roleId: Yup.string().required("Role is required"),
   });
+
+  const onSubmit = (values) => {
+    delete values.confirmPassword;
+    // alert(JSON.stringify(values));
+    authService
+      .create(values)
+      .then((res) => {
+        toast.success("Succesfully Registered");
+        navigate("/login");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const [roleList, setRoleList] = useState([]);
+
+  const getRoles = () => {
+    userService
+      .getAllRoles()
+      .then((res) => {
+        setRoleList(res);
+      })
+      .catch();
+  };
+
+  useEffect(() => {
+    getRoles();
+  }, []);
+  console.log(roleList);
   return (
     <div className="">
+      <ToastContainer />
       <Header />
       <Searchbar />
       <Breadcrumbs
@@ -106,10 +131,7 @@ function Register() {
       <Formik
         initialValues={initialValues}
         validationSchema={validate}
-        onSubmit={(values) => {
-          console.log(values);
-          
-        }}
+        onSubmit={onSubmit}
       >
         {({
           values,
@@ -121,32 +143,36 @@ function Register() {
           isSubmitting,
         }) => (
           <form onSubmit={handleSubmit} className="flex-1 ml-40 mr-40">
-            <div className="grid grid-cols-2 gap-5 mt-5 ">
+            <div className="grid grid-cols-2 gap-20 mt-5 ">
               <FormControl fullWidth>
                 <label>First Name*</label>
                 <TextField
                   size="small"
                   type="text"
-                  name="firstname"
+                  name="firstName"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.firstname}
+                  value={values.firstName}
                   sx={{ height: "40px" }}
                 />
-                {errors.firstname && touched.firstname && errors.firstname}
+                <div className="text-red-600">
+                  {errors.firstName && touched.firstName && errors.firstName}
+                </div>
               </FormControl>
               <FormControl fullWidth>
                 <label>Last Name*</label>
                 <TextField
                   size="small"
                   type="text"
-                  name="lastname"
+                  name="lastName"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.lastname}
+                  value={values.lastName}
                   sx={{ height: "40px" }}
                 />
-                {errors.lastname && touched.lastname && errors.lastname}
+                <div className="text-red-600">
+                  {errors.lastName && touched.lastName && errors.lastName}
+                </div>
               </FormControl>
 
               <FormControl fullWidth>
@@ -160,22 +186,39 @@ function Register() {
                   value={values.email}
                   sx={{ height: "40px" }}
                 />
-                {errors.email && touched.email && errors.email}
+                <div className="text-red-600">
+                  {errors.email && touched.email && errors.email}
+                </div>
               </FormControl>
               <FormControl fullWidth>
-                <label>Roles*</label>
-                <Select label="Roles" onChange={handleChange} size="small">
-                  <MenuItem value={10}>1</MenuItem>
-                  <MenuItem value={20}>2</MenuItem>
-                  <MenuItem value={30}>3</MenuItem>
+                <label htmlFor="roleId">Role*</label>
+                <Select
+                  id="roleId"
+                  name="roleId"
+                  label="RoleId"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.roleId}
+                  error={errors.roleId && touched.roleId}
+                  size="small"
+                >
+                  {roleList.length > 0 &&
+                    roleList.map((role) => (
+                      <MenuItem value={role.id} key={"name" + role.id}>
+                        {role.name}
+                      </MenuItem>
+                    ))}
                 </Select>
+                <div className="text-red-600">
+                  {errors.roleId && touched.roleId && errors.roleId}
+                </div>
               </FormControl>
             </div>
             <Typography variant="h6" sx={{ marginTop: "70px" }}>
               Login Information
             </Typography>
             <Divider />
-            <div className="flex space-x-8 mt-10">
+            <div className="grid grid-cols-2 gap-20 mt-5 ">
               <FormControl fullWidth>
                 <label>Password*</label>
                 <TextField
@@ -186,21 +229,25 @@ function Register() {
                   onBlur={handleBlur}
                   value={values.password}
                 />
-                {errors.password && touched.password && errors.password}
+                <div className="text-red-600">
+                  {errors.password && touched.password && errors.password}
+                </div>
               </FormControl>
               <FormControl fullWidth>
-                <label>Password*</label>
+                <label>Confirm Password*</label>
                 <TextField
-                  type="conformpassword"
-                  name="conformpassword"
+                  type="confirmPassword"
+                  name="confirmPassword"
                   size="small"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.conformpassword}
+                  value={values.confirmPassword}
                 />
-                {errors.conformpassword &&
-                  touched.conformpassword &&
-                  errors.conformpassword}
+                <div className="text-red-600">
+                  {errors.confirmPassword &&
+                    touched.confirmPassword &&
+                    errors.confirmPassword}
+                </div>
               </FormControl>
             </div>
 

@@ -12,7 +12,7 @@ export default function Searchbar() {
         type={"text"}
         variant="outlined"
         size="small"
-        sx={{ width: "422px", backgroundColor: "white" }}
+        sx={{ width: "422px", backgroundColor: "white", fontStyle: "italic" }}
       />
 
       <Button
@@ -24,6 +24,7 @@ export default function Searchbar() {
           "&:hover": {
             backgroundColor: "#71da71", // Change the hover background color
           },
+          textTransform: "capitalize",
         }}
       >
         Search
@@ -36,6 +37,7 @@ export default function Searchbar() {
           "&:hover": {
             backgroundColor: "#f14d54", // Change the hover background color
           },
+          textTransform: "capitalize",
         }}
       >
         Cancel
