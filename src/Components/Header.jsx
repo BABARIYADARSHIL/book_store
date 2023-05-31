@@ -1,5 +1,5 @@
 import { Button, Divider } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 // import { logo } from "../assets";
 import logo from "../assets/logo.jpg";
 import { HiShoppingCart } from "react-icons/hi";
@@ -7,6 +7,7 @@ import { HiShoppingCart } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 function Header() {
   const navigate = useNavigate();
+
   return (
     <>
       <div className="flex justify-between items-center bg-white border-t-8 border-[#f14d54]">

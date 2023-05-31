@@ -7,11 +7,10 @@ import {
 } from "@mui/material";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Footer from "../Components/Footer";
-import Header from "../Components/Header";
+
 import { TextField } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import Searchbar from "../Components/Searchbar";
+
 import { Formik } from "formik";
 import * as Yup from "yup";
 import authService from "../service/auth.service";
@@ -39,7 +38,7 @@ function Login() {
         delete res.__v;
         setTimeout(() => {
           toast.success("successfully logged in");
-        }, 3000);
+        }, 2000);
         navigate("/");
       })
       .catch((err) => {
@@ -58,8 +57,7 @@ function Login() {
   return (
     <div className="flex-1 ">
       <ToastContainer />
-      <Header />
-      <Searchbar />
+
       <Breadcrumbs
         separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"
@@ -180,7 +178,6 @@ function Login() {
                 <Button
                   variant="contained"
                   type="submit"
-                  disabled={isSubmitting}
                   sx={{
                     color: "white",
                     backgroundColor: "#f14d54",
@@ -197,7 +194,6 @@ function Login() {
           </Formik>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

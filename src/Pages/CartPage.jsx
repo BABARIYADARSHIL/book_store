@@ -1,9 +1,7 @@
 import { Autocomplete, TextField } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
-import Footer from "../Components/Footer";
-import Header from "../Components/Header";
-import Searchbar from "../Components/Searchbar";
+
 function CartPage() {
   const top100Films = [
     { title: "The Shawshank Redemption", year: 1994 },
@@ -134,8 +132,6 @@ function CartPage() {
   ];
   return (
     <div className="text-center">
-      <Header />
-      <Searchbar />
       <p className="font-sans text-center font-bold text-2xl text-green-600">
         This is Cart Page
       </p>
@@ -157,7 +153,6 @@ function CartPage() {
       </Link>
       <br />
       <br />
-      <Footer />
     </div>
   );
 }
