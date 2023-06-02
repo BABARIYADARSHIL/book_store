@@ -17,13 +17,7 @@ export default function Searchbar() {
   };
 
   return (
-    <div
-      className="flex bg-[#efefef] h-20 items-center justify-center space-x-3"
-      onClick={() => {
-        openSearchResult && setOpenSearchResult(false);
-        setQuery("");
-      }}
-    >
+    <div className="flex bg-[#efefef] h-20 items-center justify-center space-x-3">
       <div style={{ position: "relative" }}>
         <TextField
           hiddenLabel

@@ -61,7 +61,10 @@ function Register() {
     authService
       .create(values)
       .then((res) => {
-        toast.success("Succesfully Registered");
+        setTimeout(() => {
+          toast.success("Succesfully Registered");
+        }, 2000);
+
         navigate("/login");
       })
       .catch((err) => {
@@ -84,7 +87,7 @@ function Register() {
   useEffect(() => {
     getRoles();
   }, []);
-  console.log(roleList);
+
   return (
     <div className="">
       <ToastContainer />

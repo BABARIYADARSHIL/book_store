@@ -1,29 +1,24 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import Footer from "./Components/Footer";
 import Header from "./Components/Header";
 import Searchbar from "./Components/Searchbar";
-import CartPage from "./Pages/CartPage";
-import Home from "./Pages/Home";
-import Login from "./Pages/Login";
-import ProductPage from "./Pages/ProductPage";
-import Register from "./Pages/Register";
+import { AuthWarpper } from "./context/auth";
+import "../src/App.css";
+
+import MyNavigation from "./MyNavigation";
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
+    <BrowserRouter>
+      <AuthWarpper>
+        <ToastContainer />
         <Header />
         <Searchbar />
-        <Routes>
-          <Route path="/" Component={Home} />
-          <Route path="/login" Component={Login} />
-          <Route path="/register" Component={Register} />
-          <Route path="/product-page" Component={ProductPage} />
-          <Route path="/cart-page" Component={CartPage} />
-        </Routes>
+        <MyNavigation />
         <Footer />
-      </BrowserRouter>
-    </>
+      </AuthWarpper>
+    </BrowserRouter>
   );
 }
 
