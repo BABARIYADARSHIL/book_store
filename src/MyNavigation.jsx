@@ -6,8 +6,13 @@ import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import UpdateProfile from "./Pages/UpdateProfile";
 import Register from "./Pages/Register";
-import Book from "./Pages/Book";
-import AddBook from "./Pages/AddBook";
+
+import Book from "./Pages/Book/Book";
+import AddBook from "./Pages/Book/AddBook";
+import EditUser from "./Pages/User/EditUser";
+import User from "./Pages/User/User";
+import Categories from "./Pages/Categories/Categories";
+import AddCategories from "./Pages/Categories/AddCategories";
 
 function MyNavigation() {
   const authContext = useAuthContext();
@@ -25,13 +30,32 @@ function MyNavigation() {
         path="/update-profile"
         element={authContext.user.id ? <UpdateProfile /> : Redirect}
       />
+
+      <Route path="/user" element={authContext.user.id ? <User /> : Redirect} />
+      <Route
+        path="/edit-user/:id"
+        element={authContext.user.id ? <EditUser /> : Redirect}
+      />
+      <Route
+        path="/categories"
+        element={authContext.user.id ? <Categories /> : Redirect}
+      />
+      <Route
+        path="/add-category"
+        element={authContext.user.id ? <AddCategories /> : Redirect}
+      />
+      <Route
+        path="/add-category/:id"
+        element={authContext.user.id ? <AddCategories /> : Redirect}
+      />
       <Route path="/book" element={authContext.user.id ? <Book /> : Redirect} />
       <Route
         path="/add-book"
         element={authContext.user.id ? <AddBook /> : Redirect}
       />
+
       <Route
-        path="/edit-book/:id"
+        path="/add-book/:id"
         element={authContext.user.id ? <AddBook /> : Redirect}
       />
       <Route

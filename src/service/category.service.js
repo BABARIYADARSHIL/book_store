@@ -5,7 +5,7 @@ const ENDPOINT = "api/category";
 const getAll = async (params) => {
   let url = `${ENDPOINT}/all`;
   if (params) {
-    url = `"${ENDPOINT}`;
+    url = `${ENDPOINT}`;
   }
   return request.get(url, { params }).then((res) => {
     return res;

@@ -17,12 +17,12 @@ const NavigationItems = [
   {
     name: "Users",
     route: "/user",
-    access: [Role.Admin],
+    access: [Role.Admin, Role.Seller],
   },
   {
     name: "Categories",
     route: "/categories",
-    access: [Role.Admin],
+    access: [Role.Admin, Role.Seller],
   },
   {
     name: "Book",
@@ -48,8 +48,9 @@ const hasAccess = (pathname, user) => {
   }
   return true;
 };
-
+// eslint-disable-next-line
 export default {
+  messages,
   hasAccess,
   NavigationItems,
   LocalStorageKeys,

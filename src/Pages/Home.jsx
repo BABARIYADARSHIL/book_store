@@ -1,11 +1,4 @@
-import { MenuItem } from "@mui/base";
-import {
-  Button,
-  FormControl,
-  Pagination,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, Pagination, TextField, Typography } from "@mui/material";
 import React, { useMemo, useState } from "react";
 
 import { useEffect } from "react";
@@ -74,20 +67,9 @@ function Home() {
     if (e.target.value === "z-a") {
       bookList.sort((a, b) => b.name.localeCompare(a.name));
     }
-    // bookList = bookList.sort((a, b) => {
-    //   if (a.name < b.name) {
-    //     return e.target.value === "a-z" ? -1 : 1;
-    //   }
-    //   if (a.name > b.name) {
-    //     console.log(e.target.value);
-    //     return e.target.value === "z-a" ? 1 : -1;
-    //   }
-    //   return 0;
-    // });
-    // console.log("book Response : ", bookList);
     setBookResponse({ ...bookResponse, items: bookList });
   };
-  // console.log("book Response : ", bookResponse);
+
   return (
     <div className="flex-1 ml-40 mr-40">
       <Typography
@@ -135,12 +117,6 @@ function Home() {
             <Typography variant="subtitle1" sx={{ marginRight: "10px" }}>
               Sort By
             </Typography>
-            {/* <FormControl sx={{ width: "236px" }}>
-              <Select onChange={sortBook} value={sortBy} size="small">
-                <MenuItem value="a-z">a - z</MenuItem>
-                <MenuItem value="z-a">z - a</MenuItem>
-              </Select>
-            </FormControl> */}
 
             <select onChange={sortBook} value={sortBy}>
               <option value="a-z">a - z</option>
