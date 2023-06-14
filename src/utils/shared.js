@@ -1,4 +1,22 @@
+import cartService from "../service/cart.service";
 import { Role } from "./enum";
+
+const addToCart = async (book, id) => {
+  return cartService
+    .add({
+      userId: id,
+      bookId: book.id,
+      quantity: 1,
+    })
+    .then((res) => {
+      return { error: false, message: "Item added in cart" };
+    })
+    .catch((e) => {
+      // if (e.status === 500) {
+      //   return { error: true, message: "Item already in the cart" };
+      // } else return { error: true, message: "something went wrong" };
+    });
+};
 
 const messages = {
   USER_DELETE: "are you sure you want to delete the user?",
@@ -50,6 +68,7 @@ const hasAccess = (pathname, user) => {
 };
 // eslint-disable-next-line
 export default {
+  addToCart,
   messages,
   hasAccess,
   NavigationItems,

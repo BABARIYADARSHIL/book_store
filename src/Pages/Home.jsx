@@ -2,15 +2,24 @@ import { Button, Pagination, TextField, Typography } from "@mui/material";
 import React, { useMemo, useState } from "react";
 
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 import { defaultFilter } from "../Constant/constant";
 
 import bookService from "../service/book.service";
 import categoryService from "../service/category.service";
+import shared from "../utils/shared";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCartData } from "../State/Slice/cartSlice";
 
 function Home() {
   const [filters, setFilters] = useState(defaultFilter);
   const [categories, setCategories] = useState([]);
   const [sortBy, setSortBy] = useState();
+  // const authContext = useAuthContext();
+  // const cartContext = useCartContext();
+  const authData = useSelector((state) => state.auth.user);
+
+  const dispatch = useDispatch();
   const [bookResponse, setBookResponse] = useState({
     pageIndex: 0,
     pageSize: 10,
@@ -18,10 +27,6 @@ function Home() {
     items: [],
     totalItems: 0,
   });
-
-  useEffect(() => {
-    getAllCategories();
-  }, []);
 
   const searchAllBooks = (filters) => {
     bookService.getAll(filters).then((res) => {
@@ -44,7 +49,9 @@ function Home() {
       }
     });
   };
-
+  useEffect(() => {
+    getAllCategories();
+  }, []);
   const books = useMemo(() => {
     const bookList = [...bookResponse.items];
     if (bookList) {
@@ -68,6 +75,23 @@ function Home() {
       bookList.sort((a, b) => b.name.localeCompare(a.name));
     }
     setBookResponse({ ...bookResponse, items: bookList });
+  };
+
+  const addToCart = (book) => {
+    shared
+      .addToCart(book, authData.id)
+      .then((res) => {
+        if (res.error) {
+          toast.error(res.message);
+        } else {
+          toast.success(res.message);
+          dispatch(fetchCartData(authData.id));
+          // dispatch(addtoCart(book)); // Dispatch the addToCart action
+        }
+      })
+      .catch((err) => {
+        toast.warning(err);
+      });
   };
 
   return (
@@ -163,6 +187,7 @@ function Home() {
                   fontWeight: "bold",
                 }}
                 fullWidth
+                onClick={() => addToCart(book)}
               >
                 add to cart
               </Button>

@@ -1,7 +1,13 @@
 import { Button, List, ListItem, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import bookService from "../service/book.service";
+import shared from "../utils/shared";
+
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCartData } from "../State/Slice/cartSlice";
 
 export default function Searchbar() {
   const [query, setQuery] = useState("");
@@ -15,7 +21,32 @@ export default function Searchbar() {
     searchBook();
     setOpenSearchResult(true);
   };
+  const navigate = useNavigate();
 
+  const authData = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+
+  const addToCart = (book) => {
+    if (!authData.id) {
+      navigate("/login");
+      toast.error("Please login before adding books to cart");
+    } else {
+      shared
+        .addToCart(book, authData.id)
+        .then((res) => {
+          if (res.error) {
+            toast.error(res.error);
+          } else {
+            toast.success("Item added in cart");
+            // cartContext.updateCart();
+            dispatch(fetchCartData(authData.id));
+          }
+        })
+        .catch((err) => {
+          toast.warning(err);
+        });
+    }
+  };
   return (
     <div className="flex bg-[#efefef] h-20 items-center justify-center space-x-3 ">
       <div style={{ position: "relative" }}>
@@ -43,9 +74,10 @@ export default function Searchbar() {
           <div
             className="bg-white w-[550px] shadow-lg absolute"
             style={{
-              position: "absolute",
+              background: "white",
+              zIndex: "9",
+              borderRadius: "4px",
               padding: "15px",
-              borderRadius: "5px",
             }}
           >
             {bookList?.length === 0 && <p>No Product Found</p>}
@@ -65,6 +97,7 @@ export default function Searchbar() {
                             color: "#f14d54",
                             textTransform: "capitalize",
                           }}
+                          onClick={() => addToCart(item)}
                         >
                           Add to Cart
                         </Button>
